@@ -14,7 +14,6 @@ jobs:
         run: |
           pip install -r requirements.txt
           
-          dvc remote add myremote gdrive://1MtiTWtcbNUUT0D4zMeHzCdP9amPWJd-M
           dvc remote modify myremote gdrive_client_id gdrive_token
           dvc pull
 

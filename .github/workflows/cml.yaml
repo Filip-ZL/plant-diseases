@@ -9,15 +9,15 @@ jobs:
       - name: cml_run
         env: 
           repo_token: ${{ secrets.REPO_TOKEN }}
-          client-id: ${{ secrets.GDRIVE_CREDENTIALS_ID }}
-          client-secret: ${{ secrets.GDRIVE_CREDENTIALS_SECRET }}
+          client_id: ${{ secrets.GDRIVE_CREDENTIALS_ID }}
+          client_secret: ${{ secrets.GDRIVE_CREDENTIALS_SECRET }}
         run: |
           pip install -r requirements.txt
 
           printenv
 
-          dvc remote modify myremote gdrive_client_id '$client-id'
-          dvc remote modify myremote gdrive_client_secret '$client-secret'
+          dvc remote modify myremote gdrive_client_id "$client_id"
+          dvc remote modify myremote gdrive_client_secret "$client_secret"
           dvc pull
           python train.py
 

@@ -9,12 +9,17 @@ jobs:
       - name: cml_run
         env:
           repo_token: ${{ secrets.REPO_TOKEN }}
-          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
+          client-id: ${{ secrets.GDRIVE_CREDENTIALS_ID }}
+          client-secret: ${{ secrets.GDRIVE_CREDENTIALS_SECRET }}
+          
         run: |
 
           pip install -r requirements.txt
 
-          dvc pull  
+          
+          dvc remote modify myremote gdrive_client_id '$client-id'
+          dvc remote modify myremote gdrive_client_secret '$client-secret'
+          dvc pull
           python train.py
 
           echo "## Model metrics" > report.md

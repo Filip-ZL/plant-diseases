@@ -14,8 +14,8 @@ jobs:
         run: |
           pip install -r requirements.txt
           
-          dvc remote modify myremote gdrive_client_id 502750719773-mi2iosu4pomqrauohk2b88i1rsea7fut.apps.googleusercontent.com
-          dvc remote modify myremote gdrive_client_secret ${gdrive_token}
+          dvc remote modify myremote gdrive_client_id "502750719773-mi2iosu4pomqrauohk2b88i1rsea7fut.apps.googleusercontent.com"
+          dvc remote modify myremote gdrive_client_secret "$gdrive_token"
           dvc pull --run-cache
           dvc repro
 

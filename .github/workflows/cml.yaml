@@ -7,20 +7,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: cml_run
-        env:
+        env: 
           repo_token: ${{ secrets.REPO_TOKEN }}
           client-id: ${{ secrets.GDRIVE_CREDENTIALS_ID }}
           client-secret: ${{ secrets.GDRIVE_CREDENTIALS_SECRET }}
-          
-          dvc remote modify myremote gdrive_client_id "$gdrive_client_id"
-          dvc remote modify myremote gdrive_client_secret "$gdrive_client_secret"
-
-          dvc pull --run-cache
-          dvc repro
-
+      - run: |
           pip install -r requirements.txt
 
-          
+          printenv
+
           dvc remote modify myremote gdrive_client_id '$client-id'
           dvc remote modify myremote gdrive_client_secret '$client-secret'
           dvc pull

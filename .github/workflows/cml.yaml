@@ -1,7 +1,7 @@
 name: plant-disease-classification
 on: [push]
 jobs:
-  run:
+  build:
     runs-on: [ubuntu-latest]
     container: docker://dvcorg/cml-py3:latest
     steps:
@@ -11,7 +11,7 @@ jobs:
           repo_token: ${{ secrets.REPO_TOKEN }}
           client-id: ${{ secrets.GDRIVE_CREDENTIALS_ID }}
           client-secret: ${{ secrets.GDRIVE_CREDENTIALS_SECRET }}
-      - run: |
+        run: |
           pip install -r requirements.txt
 
           printenv

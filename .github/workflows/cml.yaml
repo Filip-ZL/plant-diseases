@@ -1,28 +1,28 @@
 name: plant-disease-classification
 on: [push]
 jobs:
-steps:
-  run:
-    runs-on: [ubuntu-latest]
-    container: docker://dvcorg/cml-py3:latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: cml_run
-        env:
-          repo_token: ${{ secrets.REPO_TOKEN }}
-          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
-        run: |
-        
-          pip install -r requirements.txt
-          
-          dvc pull  
-          python train.py
+  steps:
+    run:
+      runs-on: [ubuntu-latest]
+      container: docker://dvcorg/cml-py3:latest
+      steps:
+        - uses: actions/checkout@v2
+        - name: cml_run
+          env:
+            repo_token: ${{ secrets.REPO_TOKEN }}
+            GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
+          run: |
 
-          echo "## Model metrics" > report.md
-          # cat metrics.txt >> report.md
+            pip install -r requirements.txt
 
-          echo "## Data viz" >> report.md
-          cml-publish acc_per_epoch.png --md >> report.md
-          cml-publish loss_per_epoch.png --md >> report.md
+            dvc pull  
+            python train.py
 
-          cml-send-comment report.md
+            echo "## Model metrics" > report.md
+            # cat metrics.txt >> report.md
+
+            echo "## Data viz" >> report.md
+            cml-publish acc_per_epoch.png --md >> report.md
+            cml-publish loss_per_epoch.png --md >> report.md
+
+            cml-send-comment report.md

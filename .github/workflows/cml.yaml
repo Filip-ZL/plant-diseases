@@ -1,6 +1,10 @@
 name: plant-disease-classification
 on: [push]
 jobs:
+steps:
+  run: dvc pull
+    env:
+      GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
   run:
     runs-on: [ubuntu-latest]
     container: docker://dvcorg/cml-py3:latest
@@ -9,18 +13,10 @@ jobs:
       - name: cml_run
         env:
           repo_token: ${{ secrets.REPO_TOKEN }}
-          gdrive_client_secret: ${{ secrets.GDRIVE_TOKEN}}
-          gdrive_client_id: ${{ secrets.GDRIVE_ID }}
         
         run: |
           pip install -r requirements.txt
           
-          dvc remote modify myremote gdrive_use_service_account true
-          dvc remote modify myremote gdrive_client_secret $gdrive_client_secret
-          dvc remote modify myremote gdrive_client_id $gdrive_client_id
-          dvc pull --run-cache
-          dvc repro
-
           python train.py
 
           echo "## Model metrics" > report.md

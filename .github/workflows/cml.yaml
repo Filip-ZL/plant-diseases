@@ -14,11 +14,11 @@ jobs:
           pip install -r requirements.txt
 
           dvc pull
-          
+
           python train.py
 
           echo "## Model metrics" > report.md
-          cat metrics.txt >> report.md
+          # cat metrics.txt >> report.md
 
           echo "## Data viz" >> report.md
           cml-publish acc_per_epoch.png --md >> report.md

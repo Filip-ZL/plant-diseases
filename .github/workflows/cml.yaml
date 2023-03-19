@@ -9,16 +9,23 @@ jobs:
       - name: cml_run
         env: 
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          google-client-id: ${{ secrets.GDRIVE_CREDENTIALS_ID }}
-          google-client-secret: ${{ secrets.GDRIVE_CREDENTIALS_SECRET }}
+#           GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
+          GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CREDENTIALS_ID }}
+          GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
+          
         run: |
           pip install -r requirements.txt
 
           # dvc remote modify myremote gdrive_client_id "$client_id"
           # dvc remote modify myremote gdrive_client_secret "$client_secret"
 
+<<<<<<< HEAD
           dvc pull --run-cache
           python train.py nn_config.yml
+=======
+          dvc pull
+          python train.py
+>>>>>>> bc2ce156ee609187e39460ffc41d9f3bfd42382f
 
           echo "## Model metrics" > report.md
           # cat metrics.txt >> report.md

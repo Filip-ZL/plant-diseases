@@ -19,7 +19,7 @@ jobs:
           dvc remote modify myremote --local gdrive_service_account_json_file_path /dev/null
           dvc remote list          
 
-          dvc pull 
+          dvc pull dataset
           python train.py nn_config.yml
 
           echo "## Model metrics" > report.md

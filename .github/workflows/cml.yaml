@@ -18,7 +18,7 @@ jobs:
           # dvc remote modify myremote gdrive_client_secret "$client_secret"
 
           dvc pull --run-cache
-          python train.py
+          python train.py nn_config.yml
 
           echo "## Model metrics" > report.md
           # cat metrics.txt >> report.md

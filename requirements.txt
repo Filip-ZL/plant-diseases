@@ -1,8 +1,10 @@
 pandas
-sklearn
+sklearn==1.1.3
 matplotlib
 seaborn
 numpy
-keras
+keras==2.9.0
+tensorflow==2.9.1
 pillow
 tqdm
+pathos

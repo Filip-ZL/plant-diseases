@@ -1,0 +1,64 @@
+train_dir: ./dataset/New Plant Diseases Dataset(Augmented)/New Plant Diseases Dataset(Augmented)/train
+test_dir: ./dataset/New Plant Diseases Dataset(Augmented)/New Plant Diseases Dataset(Augmented)/valid
+name: resnet20
+initializer: None
+shortcut_type: identity
+initial_no_filters: 16
+optim_additional_metrics: 
+  - accuracy
+shape:
+  - 256
+  - 256
+  - 3
+batch_size: 64
+classes:
+  - Black_rot 
+  - Cedar_apple_rust 
+  - Northern_Leaf_Blight 
+  - healthy 
+  - Apple_scab 
+  - Leaf_Mold 
+  - Leaf_blight_(Isariopsis_Leaf_Spot) 
+  - Early_blight 
+  - Cercospora_leaf_spot Gray_leaf_spot 
+  - healthy 
+  - healthy 
+  - Tomato_Yellow_Leaf_Curl_Virus 
+  - Late_blight 
+  - Powdery_mildew 
+  - healthy 
+  - Common_rust_ 
+  - Powdery_mildew 
+  - healthy 
+  - Spider_mites Two-spotted_spider_mite 
+  - healthy 
+  - Tomato_mosaic_virus 
+  - Target_Spot 
+  - Early_blight 
+  - Bacterial_spot 
+  - Leaf_scorch 
+  - healthy 
+  - healthy 
+  - Bacterial_spot 
+  - healthy 
+  - Late_blight 
+  - healthy 
+  - Septoria_leaf_spot 
+  - healthy 
+  - healthy 
+  - Bacterial_spot 
+  - Haunglongbing_(Citrus_greening) 
+  - Esca_(Black_Measles) 
+  - Black_rot
+validation_split: 0.2
+stack_n: 3
+initial_num_of_feature_maps: 16
+val_steps_per_epoch: 1
+number_of_epochs: 100
+loss: 'categorical_crossentropy'
+optim: 'SGD'
+optim_learning_rate_schedule:
+  - 0.1
+  - 0.001
+  - 0.001
+optim_momentum: 0.9

@@ -1,67 +1,70 @@
 from keras import layers
 from keras.optimizers import RMSprop
 from keras import models
-import dataPreparation as DP
+import libs.preprocessing.dataPreparation as DP
 from keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
-import param
+from libs.architectures import Resnet
+from libs import misc
+import sys, os
+from keras.callbacks import TensorBoard, ModelCheckpoint
 
-model = models.Sequential()
+# Load Tensorboard callback
+tensorboard = TensorBoard(
+    log_dir=os.path.join(os.getcwd(), "logs"),
+    histogram_freq=1,
+    write_images=True
+)
 
-model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(150, 150, 3)))
-model.add(layers.MaxPooling2D((2,2)))
-model.add(layers.Conv2D(64, (3, 3), activation='relu'))
-model.add(layers.MaxPooling2D((2,2)))
-model.add(layers.Conv2D(128, (3, 3), activation='relu'))
-model.add(layers.MaxPooling2D((2,2)))
-model.add(layers.Conv2D(128, (3, 3), activation='relu'))
-model.add(layers.MaxPooling2D((2,2)))
-model.add(layers.Flatten())
-model.add(layers.Dense(512, activation='relu'))
-model.add(layers.Softmax())
+# Save a model checkpoint after every epoch
+checkpoint = ModelCheckpoint(
+    os.path.join(os.getcwd(), "model_checkpoint"),
+    save_freq="epoch"
+)
 
-print(model.summary())
+callbacks = [tensorboard, checkpoint]
 
-model.compile(loss='categorical_crossentropy',
-              optimizer=RMSprop(1e-4),
-              metrics=['acc'])
+if __name__ == "__main__":
+    config = misc.load_config(sys.argv[1])
+    datagen = ImageDataGenerator(rescale=1./255)
+    dataset = DP.PlantDiseasesDataset(train_dir=config.get("train_dir"), 
+                                    test_dir=config.get("test_dir"),
+                                    from_folder=True, 
+                                    classes=config.get("classes"))
 
+    train_data, train_labels = dataset.populate_dataset("train_data", tuple(config.get("shape")))
+    test_data, test_labels = dataset.populate_dataset("test_data", tuple(config.get("shape")))
 
-datagen = ImageDataGenerator(rescale=1./255)
-dataset = DP.PlantDiseasesDataset(train_dir=param.train_dir, test_dir=param.test_dir, from_folder=True)
+    train_generator = datagen.flow(train_data, train_labels, batch_size=20)
+    test_generator = datagen.flow(test_data, test_labels, batch_size=20)
 
-train_data, train_labels = dataset.populate_dataset("train_data")
-validation_data, validation_labels = dataset.populate_dataset("valid_data")
-test_data, test_labels = dataset.populate_dataset("test_data")
+    resnet = Resnet(input_shape=config.get("shape"), n=config.get("stack_n"), classes=config.get("classes"), kwargs=config)
+    history = resnet.fit_data(train_data, 
+                              train_labels,
+                              callbacks=[callbacks],
+                              validation_split=config.get("validation_split"),
+                              epochs=config.get("number_of_epochs"))
+    
+    
+    acc = history.history['acc']
+    val_acc = history.history['val_acc']
+    loss = history.history['loss']
+    val_loss = history.history['val_loss']
 
-train_generator = datagen.flow(train_data, train_labels, batch_size=20)
-test_generator = datagen.flow(test_data, test_labels, batch_size=20)
-validation_generator = datagen.flow(validation_data, validation_labels, batch_size=20)
+    epochs = range(1, len(acc) + 1)
 
-history = model.fit_generator(train_generator,
-                              steps_per_epoch=100,
-                              epochs=30,
-                              validation_data=validation_generator)
+    plt.plot(epochs, acc, 'bo', label="Training acc")
+    plt.plot(epochs, val_acc, 'b', label="Validation acc")
+    plt.title("Training and validation accuracy")
+    plt.legend()
 
-acc = history.history['acc']
-val_acc = history.history['val_acc']
-loss = history.history['loss']
-val_loss = history.history['val_loss']
+    plt.savefig("acc_per_epoch.png")
 
-epochs = range(1, len(acc) + 1)
+    plt.figure()
 
-plt.plot(epochs, acc, 'bo', label="Training acc")
-plt.plot(epochs, val_acc, 'b', label="Validation acc")
-plt.title("Training and validation accuracy")
-plt.legend()
+    plt.plot(epochs, loss, 'bo', label="Training loss")
+    plt.plot(epochs, val_loss, 'b', label="Validation loss")
+    plt.title("Training and validation loss")
+    plt.legend()
 
-plt.savefig("acc_per_epoch.png")
-
-plt.figure()
-
-plt.plot(epochs, loss, 'bo', label="Training loss")
-plt.plot(epochs, val_loss, 'b', label="Validation loss")
-plt.title("Training and validation loss")
-plt.legend()
-
-plt.savefig("loss_per_epoch.png")
+    plt.savefig("loss_per_epoch.png")

@@ -14,6 +14,7 @@ jobs:
           GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
           
         run: |
+          pip install --upgrade pip
           pip install -r requirements.txt
 
           # dvc remote modify myremote gdrive_client_id "$client_id"

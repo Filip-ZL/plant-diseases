@@ -14,7 +14,6 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
-          dvc remote modify myremote gdrive_use_service_account true
           dvc remote modify myremote --local gdrive_use_service_account true
           dvc remote modify myremote --local gdrive_service_account_json_file_path /dev/null
           dvc remote list 

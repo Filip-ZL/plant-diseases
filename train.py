@@ -1,15 +1,15 @@
-from tensorflow.keras import layers
-from tensorflow.keras.optimizers import RMSprop
-from tensorflow.keras import models
+from keras import layers
+from keras.optimizers import RMSprop
+from keras import models
 import libs.preprocessing.dataPreparation as DP
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 from libs.architectures import Resnet
 from libs import misc
 import sys, os
-from tensorflow.keras.callbacks import TensorBoard, ModelCheckpoint
-from tensorflow.keras.datasets import cifar10
-from tensorflow.keras.utils import to_categorical
+from keras.callbacks import TensorBoard, ModelCheckpoint
+from keras.datasets import cifar10
+from keras.utils import to_categorical
 import numpy as np
 
 # Load Tensorboard callback

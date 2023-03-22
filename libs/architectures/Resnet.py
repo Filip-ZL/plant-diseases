@@ -1,11 +1,11 @@
 import tensorflow as tf
-from tensorflow.keras.layers import Dense, Conv2D, BatchNormalization, \
+from keras.layers import Dense, Conv2D, BatchNormalization, \
                                     Activation, Lambda, Add, Input, \
                                     GlobalAveragePooling2D, Flatten
-from tensorflow.keras import Model
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.losses import CategoricalCrossentropy
-from tensorflow.keras.initializers import HeNormal
+from keras import Model
+from keras.optimizers import Adam
+from keras.losses import CategoricalCrossentropy
+from keras.initializers import HeNormal
 import numpy as np
 
 class Resnet:
@@ -126,7 +126,7 @@ class Resnet:
         inputs, outputs = self.model_init(**kwargs)
 
         model = Model(inputs, outputs, name=kwargs.get("name"))
-        model.compile(loss=CategoricalCrossentropy(from_logits=True),
+        model.compile(loss=kwargs.get("loss"),
                       optimizer=Adam(0.001),
                       metrics=kwargs.get("optim_additional_metrics"))
 

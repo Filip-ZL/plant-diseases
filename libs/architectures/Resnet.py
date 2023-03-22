@@ -126,7 +126,7 @@ class Resnet:
         inputs, outputs = self.model_init(**kwargs)
 
         model = Model(inputs, outputs, name=kwargs.get("name"))
-        model.compile(loss=kwargs.get("loss"),
+        model.compile(loss=CategoricalCrossentropy(from_logits=True),
                       optimizer=Adam(0.001),
                       metrics=kwargs.get("optim_additional_metrics"))
 

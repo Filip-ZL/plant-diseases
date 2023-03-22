@@ -3,9 +3,9 @@ from tensorflow.keras.layers import Dense, Conv2D, BatchNormalization, \
                                     Activation, Lambda, Add, Input, \
                                     GlobalAveragePooling2D, Flatten
 from tensorflow.keras import Model
-from keras.optimizers import Adam
-from keras.losses import CategoricalCrossentropy
-from keras.initializers import HeNormal
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.losses import CategoricalCrossentropy
+from tensorflow.keras.initializers import HeNormal
 import numpy as np
 
 class Resnet:

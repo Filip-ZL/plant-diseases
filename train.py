@@ -30,7 +30,8 @@ if __name__ == "__main__":
     dataset = DP.PlantDiseasesDataset(train_dir=config.get("train_dir"), 
                                     test_dir=config.get("test_dir"),
                                     from_folder=True, 
-                                    classes=config.get("classes"))
+                                    classes=config.get("classes"),
+                                    use_multiprocess=False)
 
     train_data, train_labels = dataset.populate_dataset("train_data", tuple(config.get("shape")))
     test_data, test_labels = dataset.populate_dataset("test_data", tuple(config.get("shape")))

@@ -8,3 +8,4 @@ tensorflow
 pillow
 tqdm
 pathos
+dvc==2.34.2

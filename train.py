@@ -8,6 +8,9 @@ from libs.architectures import Resnet
 from libs import misc
 import sys, os
 from keras.callbacks import TensorBoard, ModelCheckpoint
+from keras.datasets import cifar10
+from keras.utils import to_categorical
+import numpy as np
 
 # Load Tensorboard callback
 tensorboard = TensorBoard(
@@ -27,24 +30,25 @@ callbacks = [tensorboard, checkpoint]
 if __name__ == "__main__":
     config = misc.load_config(sys.argv[1])
     datagen = ImageDataGenerator(rescale=1./255)
-    dataset = DP.PlantDiseasesDataset(train_dir=config.get("train_dir"), 
-                                    test_dir=config.get("test_dir"),
-                                    from_folder=True, 
-                                    classes=config.get("classes"),
-                                    use_multiprocess=False)
+    # dataset = DP.PlantDiseasesDataset(train_dir=config.get("train_dir"), 
+    #                                 test_dir=config.get("test_dir"),
+    #                                 from_folder=True, 
+    #                                 classes=config.get("classes"),
+    #                                 use_multiprocess=False)
 
-    train_data, train_labels = dataset.populate_dataset("train_data", tuple(config.get("shape")))
-    test_data, test_labels = dataset.populate_dataset("test_data", tuple(config.get("shape")))
+    (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 
-    train_generator = datagen.flow(train_data, train_labels, batch_size=20)
-    test_generator = datagen.flow(test_data, test_labels, batch_size=20)
+    y_train = np.asarray([to_categorical(y, num_classes=len(config.get("classes")))[0] for y in y_train])
+    y_test = np.asarray([to_categorical(y, num_classes=len(config.get("classes")))[0] for y in y_test])
 
-    resnet = Resnet(input_shape=config.get("shape"), n=config.get("stack_n"), classes=config.get("classes"), kwargs=config)
-    history = resnet.fit_data(train_data, 
-                              train_labels,
-                              callbacks=[callbacks],
-                              validation_split=config.get("validation_split"),
-                              epochs=config.get("number_of_epochs"))
+    train_generator = datagen.flow(x_train, y_train, batch_size=20)
+    test_generator = datagen.flow(x_test, y_test, batch_size=20)
+    resnet = Resnet(input_shape=config.get("shape"), n=config.get("stack_n"), **config)
+    history = resnet().fit(x=x_train, 
+                           y=y_train,
+                           callbacks=[callbacks],
+                           validation_split=config.get("validation_split"),
+                           epochs=config.get("number_of_epochs"))
     
     
     acc = history.history['acc']

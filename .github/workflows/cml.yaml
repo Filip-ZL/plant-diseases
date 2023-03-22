@@ -11,7 +11,7 @@ jobs:
           GDRIVE_CREDENTIALS_DATA: ${{ secrets.ORIGINAL_SERVICE_ACCOUNT_JSON }}
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
           dvc remote modify myremote --local gdrive_use_service_account true

@@ -1,0 +1,36 @@
+train_dir: ./dataset/New Plant Diseases Dataset(Augmented)/New Plant Diseases Dataset(Augmented)/train
+test_dir: ./dataset/New Plant Diseases Dataset(Augmented)/New Plant Diseases Dataset(Augmented)/valid
+name: resnet20
+initializer: None
+shortcut_type: identity
+initial_no_filters: 16
+optim_additional_metrics: 
+  - accuracy
+shape:
+  - 32
+  - 32
+  - 3
+batch_size: 64
+classes:
+ - airplane
+ - automobile
+ - bird
+ - cat
+ - deer
+ - dog
+ - frog
+ - horse
+ - ship
+ - truck
+validation_split: 0.2
+stack_n: 3
+initial_num_of_feature_maps: 16
+val_steps_per_epoch: 1
+number_of_epochs: 2
+loss: 'categorical_crossentropy'
+optim: 'SGD'
+optim_learning_rate_schedule:
+  - 0.1
+  - 0.001
+  - 0.001
+optim_momentum: 0.9

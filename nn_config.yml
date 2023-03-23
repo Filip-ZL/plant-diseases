@@ -26,7 +26,7 @@ validation_split: 0.2
 stack_n: 3
 initial_num_of_feature_maps: 16
 val_steps_per_epoch: 1
-number_of_epochs: 100
+number_of_epochs: 35
 loss: 'categorical_crossentropy'
 optim: 'SGD'
 optim_learning_rate_schedule:

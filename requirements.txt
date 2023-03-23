@@ -8,5 +8,5 @@ tensorflow
 pillow
 tqdm
 pathos
-dvc==2.34.2
-dvc_gdrive
+# dvc==2.34.2
+# dvc_gdrive

@@ -35,7 +35,7 @@ class Classifier():
             "status": "OK"
         }
     
-    def compute_predcition(self, input_data):
+    def compute_prediction(self, input_data):
         try:
             input_data = self.preprocessing(input_data)
             prediction = self.predict(input_data)

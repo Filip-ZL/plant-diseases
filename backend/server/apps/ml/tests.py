@@ -9,7 +9,7 @@ class MLTests(TestCase):
     def test_algorithm(self):
     
         ml_alg = Classifier()
-        response = ml_alg.compute_predcition(r"./apps/ml/sample.jpg")
+        response = ml_alg.compute_predicition(r"./apps/ml/sample.jpg")
         self.assertEqual('OK', response['status'])
         self.assertTrue('label' in response)
         self.assertEqual('ship', response['label'])

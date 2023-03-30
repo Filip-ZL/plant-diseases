@@ -26,6 +26,15 @@ try:
     registry.add_algorithm(endpoint_name="cifar10_classifier",
                            algorithm_object=resnet,
                            algorithm_name="Resnet classifier",
+                           algorithm_status="dev",
+                           algorithm_version="0.0.2",
+                           owner="fj",
+                           algorithm_description="Resnet for cifar10 classifier",
+                           algortihm_code=inspect.getsource(Classifier))
+    
+    registry.add_algorithm(endpoint_name="cifar10_classifier",
+                           algorithm_object=resnet,
+                           algorithm_name="Resnet classifier",
                            algorithm_status="production",
                            algorithm_version="0.0.1",
                            owner="fj",

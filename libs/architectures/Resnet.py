@@ -130,7 +130,7 @@ class Resnet:
                       optimizer=Adam(0.001),
                       metrics=kwargs.get("optim_additional_metrics"))
 
-        model.summary()
+        # model.summary()
 
         return model
 

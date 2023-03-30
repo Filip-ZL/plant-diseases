@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apps.endpoints.models import Endpoint, MLAlgorithm, MLAlgorithmStatus, MLRequest
+from apps.endpoints.models import Endpoint, MLAlgorithm, MLAlgorithmStatus, MLRequest, ABTest
 
 class EndpointSerializer(serializers.ModelSerializer):
     
@@ -37,10 +37,21 @@ class MLAlgorithmStatusSerializer(serializers.ModelSerializer):
         
 class MLRequestSerializer(serializers.ModelSerializer):
 
+    input_data = serializers.ImageField()
+
     class Meta:
         model = MLRequest
-        read_only_fields = ("id", "input_data", "full_response", 
-                            "response", "created_at", "parent_mlalgorithm")
+        read_only_fields = ("id", "full_response", "response", 
+                            "created_at", "parent_mlalgorithm")
         fields = ("id", "input_data", "full_response", "response", 
                   "feedback", "created_at", "parent_mlalgorithm")
+        
+
+class ABTestSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ABTest
+        read_only_fields = ("id", "ended_at", "created_at", "summary")
+        fields = ("id", "title", "created_by", "created_at", "ended_at", 
+                  "summary", "parent_mlalgorithm_1", "parent_mlalgorithm_2")
         

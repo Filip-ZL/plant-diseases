@@ -10,3 +10,8 @@ pathos==0.3.0
 # dvc==2.34.2
 # dvc_gdrive
 django==4.1.7
+pyyaml==5.4.1
+tensorflow-gpu==2.9.1
+mysqlclient==2.1.1
+djangorestframework==3.14.0
+django-filter==23.1

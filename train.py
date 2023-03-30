@@ -49,6 +49,8 @@ if __name__ == "__main__":
                            callbacks=[callbacks],
                            validation_split=config.get("validation_split"),
                            epochs=config.get("number_of_epochs"))
+
+    resnet().save(os.path.join('./models/', 'trained_model.h5'))
     
     
     acc = history.history['accuracy']
